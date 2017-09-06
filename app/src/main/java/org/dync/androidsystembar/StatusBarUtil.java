@@ -102,7 +102,17 @@ public class StatusBarUtil {
             } else if (FlymeSetStatusBarLightMode(activity.getWindow(), dark)) {
                 result = 2;
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                View decorView = activity.getWindow().getDecorView();
+                int oldVis = decorView.getSystemUiVisibility();
+                int newVis = oldVis;
+                if (dark) {
+                    newVis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                } else {
+                    newVis &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+                }
+                if (newVis != oldVis) {
+                    decorView.setSystemUiVisibility(newVis);
+                }
                 result = 3;
             }
         }
@@ -188,7 +198,13 @@ public class StatusBarUtil {
         } else if (type == 2) {
             FlymeSetStatusBarLightMode(activity.getWindow(), true);
         } else if (type == 3) {
-            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            View decorView = activity.getWindow().getDecorView();
+            int oldVis = decorView.getSystemUiVisibility();
+            int newVis = oldVis;
+            newVis |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            if (newVis != oldVis) {
+                decorView.setSystemUiVisibility(newVis);
+            }
         }
 
     }
