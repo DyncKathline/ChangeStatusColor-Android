@@ -13,5 +13,5 @@
 <div align="center">
 <img src="https://github.com/DyncKathline/ChangeStatusColor-Android/blob/master/screenshots/4.jpg" width = "300" height = "500" alt="图片4" align=center />
 <div align="center">
-<img src="https://github.com/DyncKathline/ChangeStatusColor-Android/blob/master/screenshots/5.jpg" width = "300" height = "500" alt="图片5" align=center />
+<img src="https://github.com/DyncKathline/ChangeStatusColor-Android/blob/master/screenshots/5.jpg" width = "500" height = "300" alt="图片5" align=center />
 
