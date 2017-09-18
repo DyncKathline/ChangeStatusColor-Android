@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -17,6 +15,8 @@ import java.lang.reflect.Method;
  * Created by xiongxuesong-pc on 2016/5/15.
  */
 public class StatusBarUtil {
+
+    private static SystemBarTintManager tintManager;
 
     /**
      * 修改状态栏为全透明
@@ -59,7 +59,6 @@ public class StatusBarUtil {
      * @param isFollow 是否保持沉浸式状态
      */
     public static void setStatusBarColor(Activity activity, int colorId, boolean isFollow) {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
 //      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -74,7 +73,7 @@ public class StatusBarUtil {
             if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 parentView.setFitsSystemWindows(true);
             }
-            SystemBarTintManager tintManager = new SystemBarTintManager(activity);
+            tintManager = new SystemBarTintManager(activity);
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintColor(colorId);
             /*// set a custom tint color for all system bars
@@ -83,6 +82,31 @@ public class StatusBarUtil {
             tintManager.setNavigationBarTintResource(R.drawable.my_tint);
             // set a custom status bar drawable
             tintManager.setStatusBarTintDrawable(MyDrawable);*/
+        }
+    }
+
+    /**
+     *  设置WindowManager.LayoutParams.FLAG_FULLSCREEN时，由于使用了fitSystemWindows()方法,导致的问题
+     *  支持4.4以上版本，在5.0以上可以不需要调用该方法了
+     * @param activity
+     * @param flag_fullscreen   true：添加全屏   false：清除全屏
+     */
+    public static void setFitsSystemWindows(Activity activity, boolean flag_fullscreen) {
+        ViewGroup contentFrameLayout = (ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT);
+        View parentView = contentFrameLayout.getChildAt(0);
+        if(flag_fullscreen){
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//全屏
+        }else {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//清除全屏
+        }
+        if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            if (tintManager != null) {
+                if (flag_fullscreen) {
+                    tintManager.setStatusBarTintEnabled(false);
+                } else {
+                    tintManager.setStatusBarTintEnabled(true);
+                }
+            }
         }
     }
 
