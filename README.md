@@ -1,5 +1,12 @@
 # ChangeStatusColor-Android
-一个可以改变系统状态栏颜色和字体的例子
+可以改变系统状态栏颜色和字体  
+
+# 集成使用：
+你可以依赖
+```
+compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+```
+或者拷贝SystemBarTintManager.java这其实是我从systembartint那里拷贝过来的，代码一摸一样。  
 
 # 例子截图
 当前例子只有小米和魅族手机开放了可以改变状态栏字体颜色的API，本截图是小米4 MIUI7 Android6.0.1手机  
