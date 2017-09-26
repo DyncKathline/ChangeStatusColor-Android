@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 applySelectedColor();
             }
         });
-        StatusBarUtil.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.colorAccent), false);
+        StatusBarUtil.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.colorAccent));
         mTitle.setBackgroundColor(getResources().getColor(R.color.colorAccent));
     }
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 //        int color = Color.argb(153, Color.red(selected), Color.green(selected), Color.blue(selected));
         int color = Color.rgb(Color.red(selected), Color.green(selected), Color.blue(selected));
 
-        StatusBarUtil.setStatusBarColor(MainActivity.this, color, false);
+        StatusBarUtil.setStatusBarColor(MainActivity.this, color);
         mTitle.setBackgroundColor(color);
     }
 
