@@ -24,21 +24,7 @@ public class StatusBarUtil {
      * @param activity
      */
     public static void transparencyBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = activity.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            int uiFlags = 0;
-            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            uiFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-            uiFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-//            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            window.getDecorView().setSystemUiVisibility(uiFlags);
-            window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = activity.getWindow();
             window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -87,17 +73,6 @@ public class StatusBarUtil {
         } else {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//清除全屏
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            int uiFlags = 0;
-            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            uiFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-            uiFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-//        uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            activity.getWindow().getDecorView().setSystemUiVisibility(uiFlags);
-        }
-
         if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             if (tintManager != null) {
                 if (flag_fullscreen) {
@@ -105,6 +80,34 @@ public class StatusBarUtil {
                 } else {
                     tintManager.setStatusBarTintEnabled(true);
                 }
+            }
+        }
+    }
+
+    /**
+     *
+     * @param activity
+     * @param navigationBarState    navigationBar是否可见，true：可见   false：不可见
+     */
+    public static void setSystemUI(Activity activity, boolean navigationBarState){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            if(navigationBarState){
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                        | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                //添加Flag把状态栏设为可绘制模式
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                int uiFlags = 0;
+//                uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;//隐藏NavigationBar时会留下空白
+                uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+                uiFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+                uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+                uiFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+                window.getDecorView().setSystemUiVisibility(uiFlags);
+                window.setNavigationBarColor(Color.TRANSPARENT);
+                window.setStatusBarColor(Color.TRANSPARENT);
+            }else {
+                window.getDecorView().setSystemUiVisibility(0);
             }
         }
     }

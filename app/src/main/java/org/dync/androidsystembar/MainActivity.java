@@ -52,14 +52,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mRadioGroupConfiguration = (RadioGroup) findViewById(R.id.rgroup_configuration);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 竖屏
         mRadioGroupConfiguration.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if (checkedId == R.id.rb_landscape){//横屏
+                if (checkedId == R.id.rb_landscape) {//横屏
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 //                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//全屏
                     StatusBarUtil.setFitsSystemWindows(MainActivity.this, true);
-                }else if(checkedId == R.id.rb_portrait){//竖屏
+                } else if (checkedId == R.id.rb_portrait) {//竖屏
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 竖屏
 //                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//清除全屏
                     StatusBarUtil.setFitsSystemWindows(MainActivity.this, false);
@@ -73,13 +75,14 @@ public class MainActivity extends AppCompatActivity {
                 applySelectedColor();
             }
         });
+        StatusBarUtil.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.colorAccent));
         mTitle.setBackgroundColor(getResources().getColor(R.color.colorAccent));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        StatusBarUtil.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.colorAccent));
+        StatusBarUtil.setSystemUI(MainActivity.this, true);
     }
 
     @Override
