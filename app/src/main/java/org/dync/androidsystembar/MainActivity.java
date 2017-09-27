@@ -73,8 +73,13 @@ public class MainActivity extends AppCompatActivity {
                 applySelectedColor();
             }
         });
-        StatusBarUtil.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.colorAccent));
         mTitle.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        StatusBarUtil.setStatusBarColor(MainActivity.this, getResources().getColor(R.color.colorAccent));
     }
 
     @Override

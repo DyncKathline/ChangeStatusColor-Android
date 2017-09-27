@@ -1,6 +1,7 @@
 package org.dync.androidsystembar;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,24 @@ public class StatusBarUtil {
      * @param activity
      */
     public static void transparencyBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
-            //透明状态栏
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            int uiFlags = 0;
+            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            uiFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            uiFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+//            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            window.getDecorView().setSystemUiVisibility(uiFlags);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = activity.getWindow();
+            window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
     }
 
@@ -74,6 +87,17 @@ public class StatusBarUtil {
         } else {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//清除全屏
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int uiFlags = 0;
+            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            uiFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            uiFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+//        uiFlags |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            activity.getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+        }
+
         if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             if (tintManager != null) {
                 if (flag_fullscreen) {
