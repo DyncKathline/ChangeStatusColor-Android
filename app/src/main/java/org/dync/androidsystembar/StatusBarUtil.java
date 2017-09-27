@@ -74,7 +74,7 @@ public class StatusBarUtil {
         } else {
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//清除全屏
         }
-        if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        if (parentView != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             if (tintManager != null) {
                 if (flag_fullscreen) {
                     tintManager.setStatusBarTintEnabled(false);
